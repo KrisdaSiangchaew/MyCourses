@@ -20,12 +20,20 @@ struct ContentView: View {
                         icon: { Image(systemName: "house") }
                     )
                 }
-            CoursesView()
-                .tag(CoursesView.tag)
+            CoursesView(forArchived: false)
+                .tag(CoursesView.tagCurrent)
                 .tabItem {
                     Label(
-                        title: { Text("Courses") },
-                        icon: { Image(systemName: "books.vertical.fill") }
+                        title: { Text("Current") },
+                        icon: { Image(systemName: "books.vertical") }
+                    )
+                }
+            CoursesView(forArchived: true)
+                .tag(CoursesView.tagCurrent)
+                .tabItem {
+                    Label(
+                        title: { Text("Archived") },
+                        icon: { Image(systemName: "archivebox") }
                     )
                 }
         }

@@ -11,20 +11,19 @@ extension DataController {
     func createSampleData() throws {
         let viewContext = container.viewContext
         
-        (1...10).forEach { i in
+        (1...5).forEach { i in
             let course = Course(context: viewContext)
             course.archived = Bool.random()
             course.color = Course.colors[Int.random(in: 0..<Course.colors.count)]
+            course.creationDate = Date.randomDateWithin(numberOfDays: 30)
             course.detail = "This is detail of Course \(i)."
-            course.favorite = Bool.random()
-            course.icon = Course.icons[Int.random(in: 0..<Course.icons.count)]
             course.title = "Course \(i)"
-            (1...10).forEach { j in
+            (1...5).forEach { j in
                 let topic = Topic(context: viewContext)
                 topic.completed = Bool.random()
+                topic.creationDate = Date.randomDateWithin(numberOfDays: 30)
                 topic.detail = "This is description for this topic."
-                topic.dueDate = topic.completed ? nil : Date(timeIntervalSinceNow: TimeInterval(Int.random(in: 86_400...2_592_000)))
-                topic.ordering = Int16(j)
+                topic.priority = Int16.random(in: 0...3)
                 topic.title = "Topic \(j)"
 
                 topic.course = course

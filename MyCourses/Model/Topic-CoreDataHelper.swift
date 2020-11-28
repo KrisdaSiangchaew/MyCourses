@@ -9,15 +9,19 @@ import Foundation
 
 extension Topic {
     enum SortOrder {
-        case optimized, index, dueDate
+        case optimized, priority, title
+    }
+    
+    enum Priority: Int16 {
+        case none = 0, low, medium, high
+    }
+    
+    var topicCreationDate: Date {
+        creationDate ?? Date()
     }
     
     var topicDetail: String {
         detail ?? ""
-    }
-    
-    var topicDueDate: Date {
-        dueDate ?? Date()
     }
     
     var topicTitle: String {

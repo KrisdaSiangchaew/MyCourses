@@ -13,12 +13,12 @@ extension Course {
         color ?? Course.colors[0]
     }
     
-    var courseDetail: String {
-        detail ?? ""
+    var courseCreationDate: Date {
+        creationDate ?? Date()
     }
     
-    var courseIcon: String {
-        icon ?? Course.icons[0]
+    var courseDetail: String {
+        detail ?? ""
     }
     
     var courseTitle: String {
@@ -31,12 +31,10 @@ extension Course {
     
     func courseTopics(using sortOrder: Topic.SortOrder) -> [Topic] {
         switch sortOrder {
-        case .index:
-            return courseTopics.sorted { $0.ordering < $1.ordering }
-        case .dueDate:
-            return courseTopics
-                .sorted { $0.topicDueDate < $1.topicDueDate }
-                .sorted { $0.ordering < $1.ordering }
+        case .priority:
+            return courseTopics.sorted { $0.priority < $1.priority }
+        case .title:
+            return courseTopics.sorted { $0.topicTitle < $1.topicTitle }
         case .optimized:
             return courseTopicsDefaultSorted
         }
@@ -54,7 +52,7 @@ extension Course {
                 }
             }
             
-            return $0.ordering < $1.ordering
+            return $0.topicCreationDate < $1.topicCreationDate
         }
     }
     

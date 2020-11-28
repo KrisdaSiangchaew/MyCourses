@@ -11,36 +11,42 @@ struct CoursesView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var dataController: DataController
     
-    static let tag: String? = "CourseList"
+    static let tagCurrent: String = "Current"
+    static let tagArchived: String = "Archived"
+    
+    let archived: Bool
+    
+    let fetchRequest: FetchRequest<Course>
+    
+    var courses: FetchedResults<Course> {
+        fetchRequest.wrappedValue
+    }
+    
+    init(forArchived archived: Bool) {
+        self.archived = archived
+        
+        fetchRequest = FetchRequest<Course>(
+            entity: Course.entity(),
+            sortDescriptors: [NSSortDescriptor(keyPath: \Course.title, ascending: true)],
+            predicate: NSPredicate(format: "archived = %d", archived)
+        )
+    }
     
     @State private var showArchivedList: Bool = true
     
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Active Courses")) {
-                    FilteredCourseList(isArchived: false) { course in
-                        CourseRowView(course: course)
-                    }
-                }
-                Section(header:
-                    HStack {
-                        Text("Archived Courses")
-                        Spacer()
-                        Toggle(isOn: $showArchivedList.animation(), label: {
-                            Text("Show")
-                        })
-                    }
-                )
-                {
-                    if showArchivedList {
-                        FilteredCourseList(isArchived: true) { course in
-                            CourseRowView(course: course)
+                ForEach(courses, id: \.self) { course in
+                    Section(header: CourseRowView(course: course)) {
+                        ForEach(course.courseTopics(using: .optimized), id: \.id) { topic in
+                            TopicRowView(topic: topic)
                         }
                     }
                 }
             }
             .listStyle(InsetGroupedListStyle())
+            .navigationTitle(archived ? "Archived Courses" : "Current Courses")
         }
     }
 }
@@ -50,8 +56,8 @@ struct CoursesView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            CoursesView()
-            CoursesView()
+            CoursesView(forArchived: true)
+            CoursesView(forArchived: true)
                 .preferredColorScheme(.dark)
         }
         .environment(\.managedObjectContext, dataController.container.viewContext)

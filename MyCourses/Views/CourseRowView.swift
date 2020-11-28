@@ -11,16 +11,17 @@ struct CourseRowView: View {
     @ObservedObject var course: Course
     
     var body: some View {
-        HStack {
-            Image(systemName: course.courseIcon)
-                .style(as: .smallIcon, color: course.courseColor)
-            
+        HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text(course.courseTitle)
                     
                 ProgressView(value: course.completionAmount)
                     .accentColor(Color(course.courseColor))
             }
+            NavigationLink(
+                destination: CourseEditView(course: course),
+                label: { Image(systemName: "square.and.pencil")}
+            )
         }
     }
 }

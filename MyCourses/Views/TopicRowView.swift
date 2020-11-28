@@ -23,7 +23,7 @@ struct TopicRowView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
-        return formatter.string(from: topic.topicDueDate)
+        return formatter.string(from: topic.topicCreationDate)
     }
 }
 

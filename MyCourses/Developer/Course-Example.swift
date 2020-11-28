@@ -13,12 +13,8 @@ extension Course {
         let viewContext = controller.container.viewContext
         
         let course = Course(context: viewContext)
-        course.color = Course.colors[0]
         course.detail = "This is an example course"
-        course.icon = Course.icons[0]
         course.title = "Example Course"
-//        course.addToTopics(Topic.example)
-        
         return course
     }
 }
