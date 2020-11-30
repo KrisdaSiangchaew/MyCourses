@@ -29,14 +29,14 @@ struct CourseEditView: View {
     }
     
     var body: some View {
-        List {
+        Form {
             Section(header: Text("Basic settings")) {
                 TextField(course.courseTitle, text: $title.onChange(update))
                 TextField(course.courseDetail, text: $detail.onChange(update))
             }
             
             Section(header: Text("Custom course color")) {
-                
+                colorsPanel
             }
             
             Section {
@@ -51,6 +51,27 @@ struct CourseEditView: View {
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle(Text("Edit Course"))
+    }
+    
+    var colorsPanel: some View {
+        let cols: [GridItem] = [
+            GridItem(.adaptive(minimum: 44, maximum: 100), spacing: 8),
+        ]
+        return LazyVGrid(columns: cols) {
+            ForEach(Course.colors, id: \.self) { color in
+                Color(color)
+                    .frame(height: 44)
+                    .cornerRadius(5)
+                    .overlay(
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(course.courseColor == color ? .white : .clear)
+                    )
+                    .onTapGesture {
+                        self.color = color
+                        update()
+                    }
+            }
+        }
     }
 }
 
