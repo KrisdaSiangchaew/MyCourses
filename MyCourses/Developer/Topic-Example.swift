@@ -16,6 +16,8 @@ extension Topic {
         topic.title = "New Topic"
         topic.detail = "This is an example topic."
         
+        try? viewContext.save()
+        
         return topic
     }
     

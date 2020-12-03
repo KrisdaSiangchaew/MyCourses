@@ -15,6 +15,11 @@ extension Course {
         let course = Course(context: viewContext)
         course.detail = "This is an example course"
         course.title = "Example Course"
+        course.archived = false
+        course.color = Course.colors[0]
+        
+        try? viewContext.save()
+        
         return course
     }
 }
