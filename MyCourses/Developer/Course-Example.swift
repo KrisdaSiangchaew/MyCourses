@@ -16,7 +16,6 @@ extension Course {
         course.detail = "This is an example course"
         course.title = "Example Course"
         course.archived = false
-        course.color = Course.colors[0]
         
         try? viewContext.save()
         

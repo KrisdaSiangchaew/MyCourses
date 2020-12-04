@@ -21,13 +21,22 @@ struct ContentView: View {
                     )
                 }
             
+            CoursesView(showArchive: false)
+                .tag(CoursesView.tagOpen)
+                .tabItem {
+                    Label(
+                        title: { Text("Open") },
+                        icon: { Image(systemName: "books.vertical") }
+                    )
+                }
+            
             CoursesView(showArchive: true)
                 .tag(CoursesView.tagArchived)
                 .tabItem {
                     Label(
                         title: { Text("Archived") },
                         icon: { Image(systemName: "archivebox") }
-)
+                    )
                 }
         }
     }

@@ -13,7 +13,7 @@ extension Topic {
         let viewContext = dataController.container.viewContext
         
         let topic = Topic(context: viewContext)
-        topic.title = "New Topic"
+        topic.title = "Example Topic"
         topic.detail = "This is an example topic."
         
         try? viewContext.save()

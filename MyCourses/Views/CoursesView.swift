@@ -8,20 +8,19 @@
 import SwiftUI
 
 struct CoursesView: View {
+    let showArchived: Bool
     let courses: FetchRequest<Course>
     
-    let archived: Bool
-    
-    static let tagArchived = "Archived"
-    static let tagOpen = "Open"
+    static let tagArchived: String? = "Archived"
+    static let tagOpen: String? = "Open"
     
     init(showArchive: Bool) {
-        self.archived = showArchive
+        self.showArchived = showArchive
         
         courses = FetchRequest<Course>(
             entity: Course.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Course.title, ascending: true)],
-            predicate: NSPredicate(format: "archived = %d", archived)
+            sortDescriptors: [NSSortDescriptor(keyPath: \Course.creationDate, ascending: false)],
+            predicate: NSPredicate(format: "archived = %d", showArchived)
         )
     }
     
@@ -29,9 +28,15 @@ struct CoursesView: View {
         NavigationView {
             List {
                 ForEach(courses.wrappedValue) { course in
-                    Text(course.courseTitle)
+                    Section(header: CourseHeaderView(course: course)) {
+                        ForEach(course.courseTopics) { item in
+                            TopicRowView(topic: item)
+                        }
+                    }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
+            .navigationTitle(Text(showArchived ? "Archived Courses" : "Open Courses"))
         }
     }
 }
@@ -42,5 +47,6 @@ struct CoursesView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesView(showArchive: false)
             .environment(\.managedObjectContext, dataController.container.viewContext)
+            .environmentObject(dataController)
     }
 }
