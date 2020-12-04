@@ -17,6 +17,9 @@ struct CoursesView: View {
     static let tagArchived: String? = "Archived"
     static let tagOpen: String? = "Open"
     
+    @State private var showSortingOrder = false
+    @State private var sortOrder: Topic.SortOrder = .optimized
+    
     init(showArchive: Bool) {
         self.showArchived = showArchive
         
@@ -32,7 +35,7 @@ struct CoursesView: View {
             List {
                 ForEach(courses.wrappedValue) { course in
                     Section(header: CourseHeaderView(course: course)) {
-                        ForEach(course.courseTopics) { item in
+                        ForEach(course.courseTopics(using: sortOrder)) { item in
                             TopicRowView(topic: item)
                         }
                         .onDelete { offsets in
@@ -44,37 +47,52 @@ struct CoursesView: View {
                             }
                             dataController.save()
                         }
-                        Button(action: {
-                            let topic = Topic(context: moc)
-                            topic.course = course
-                            topic.creationDate = Date()
-                            dataController.save()
-                        }, label: {
-                            Label(
-                                title: { Text("Add new item") },
-                                icon: { Image(systemName: "plus") }
-)
-                        })
+                        if showArchived == false {
+                            Button {
+                                let topic = Topic(context: moc)
+                                topic.course = course
+                                topic.creationDate = Date()
+                                dataController.save()
+                            } label: {
+                                Label("Add new item", systemImage: "plus")
+                            }
+                        }
                     }
                 }
             }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle(Text(showArchived ? "Archived Courses" : "Open Courses"))
             .toolbar {
-                if showArchived == false {
-                    Button(action: {
-                        withAnimation {
-                            let course = Course(context: moc)
-                            course.creationDate = Date()
-                            course.archived = false
-                            
-                            dataController.save()
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if showArchived == false {
+                        Button {
+                            withAnimation {
+                                let course = Course(context: moc)
+                                course.creationDate = Date()
+                                course.archived = false
+                                
+                                dataController.save()
+                            }
+                        } label: {
+                            Label("Add course", systemImage: "plus")
                         }
-                    }) {
-                        Image(systemName: "plus")
-                            .imageScale(.large)
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showSortingOrder.toggle()
+                    } label: {
+                        Label("Sort", systemImage: "arrow.up.arrow.down")
+                    }
+                }
+            }
+            .actionSheet(isPresented: $showSortingOrder) {
+                ActionSheet(title: Text("Sort topics"), message: nil, buttons: [
+                    .default(Text("Optimized")) { sortOrder = .optimized },
+                    .default(Text("Title")) { sortOrder = .title },
+                    .default(Text("Date")) { sortOrder = .creationDate }
+                ])
             }
         }
     }

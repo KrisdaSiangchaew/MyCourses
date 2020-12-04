@@ -29,6 +29,7 @@
 		31AAA60D2568121C00F6F1D4 /* Topic-Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAA60C2568121C00F6F1D4 /* Topic-Example.swift */; };
 		31AAA610256818A400F6F1D4 /* DataController-CreateSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAA60F256818A400F6F1D4 /* DataController-CreateSampleData.swift */; };
 		31AAA61A2568221200F6F1D4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAA6192568221200F6F1D4 /* HomeView.swift */; };
+		31B3690A257A956D0005B258 /* Sequence-Sorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B36909257A956D0005B258 /* Sequence-Sorted.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		31AAA60C2568121C00F6F1D4 /* Topic-Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Topic-Example.swift"; sourceTree = "<group>"; };
 		31AAA60F256818A400F6F1D4 /* DataController-CreateSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataController-CreateSampleData.swift"; sourceTree = "<group>"; };
 		31AAA6192568221200F6F1D4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		31B36909257A956D0005B258 /* Sequence-Sorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence-Sorted.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				315CFB3B256A65BD004FED80 /* Text-Style.swift */,
 				3164720B2572118900ACA9E5 /* Date-RandomDateRange.swift */,
 				3154112125728563003D95E1 /* Binding-OnChange.swift */,
+				31B36909257A956D0005B258 /* Sequence-Sorted.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				31AAA60D2568121C00F6F1D4 /* Topic-Example.swift in Sources */,
 				315CFB3E256A65BD004FED80 /* Image-Style.swift in Sources */,
 				31AAA608256803B100F6F1D4 /* Course-Example.swift in Sources */,
+				31B3690A257A956D0005B258 /* Sequence-Sorted.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

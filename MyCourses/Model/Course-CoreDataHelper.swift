@@ -31,10 +31,10 @@ extension Course {
     
     func courseTopics(using sortOrder: Topic.SortOrder) -> [Topic] {
         switch sortOrder {
-        case .priority:
-            return courseTopics.sorted { $0.priority < $1.priority }
+        case .creationDate:
+            return courseTopics.sorted(by: \Topic.topicCreationDate)
         case .title:
-            return courseTopics.sorted { $0.topicTitle < $1.topicTitle }
+            return courseTopics.sorted(by: \Topic.topicTitle)
         case .optimized:
             return courseTopicsDefaultSorted
         }

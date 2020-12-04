@@ -8,8 +8,8 @@
 import Foundation
 
 extension Topic {
-    enum SortOrder {
-        case optimized, priority, title
+    enum SortOrder: String {
+        case optimized, creationDate, title
     }
     
     enum Priority: Int16 {
