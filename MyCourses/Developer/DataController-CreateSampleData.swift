@@ -21,7 +21,7 @@ extension DataController {
             (1...5).forEach { j in
                 let topic = Topic(context: viewContext)
                 topic.completed = Bool.random()
-                topic.creationDate = Date.randomDateWithin(numberOfDays: 30)
+                topic.creationDate = Date()
                 topic.detail = "This is description for this topic."
                 topic.priority = Int16.random(in: 0...3)
                 topic.title = "Topic \(j)"
