@@ -36,7 +36,7 @@ struct CoursesView: View {
                 ForEach(courses.wrappedValue) { course in
                     Section(header: CourseHeaderView(course: course)) {
                         ForEach(course.courseTopics(using: sortOrder)) { item in
-                            TopicRowView(topic: item)
+                            TopicRowView(course: course, topic: item)
                         }
                         .onDelete { offsets in
                             let allItems = course.courseTopics
