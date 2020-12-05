@@ -32,35 +32,41 @@ struct CoursesView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(courses.wrappedValue) { course in
-                    Section(header: CourseHeaderView(course: course)) {
-                        ForEach(course.courseTopics(using: sortOrder)) { item in
-                            TopicRowView(course: course, topic: item)
-                        }
-                        .onDelete { offsets in
-                            let allItems = course.courseTopics
-                            
-                            for offset in offsets {
-                                let topic = allItems[offset]
-                                dataController.delete(topic)
-                            }
-                            dataController.save()
-                        }
-                        if showArchived == false {
-                            Button {
-                                let topic = Topic(context: moc)
-                                topic.course = course
-                                topic.creationDate = Date()
-                                dataController.save()
-                            } label: {
-                                Label("Add new item", systemImage: "plus")
+            Group {
+                if courses.wrappedValue.count == 0 {
+                    Text("There is nothing to show now.")
+                } else {
+                    List {
+                        ForEach(courses.wrappedValue) { course in
+                            Section(header: CourseHeaderView(course: course)) {
+                                ForEach(course.courseTopics(using: sortOrder)) { item in
+                                    TopicRowView(course: course, topic: item)
+                                }
+                                .onDelete { offsets in
+                                    let allItems = course.courseTopics(using: sortOrder)
+                                    
+                                    for offset in offsets {
+                                        let topic = allItems[offset]
+                                        dataController.delete(topic)
+                                    }
+                                    dataController.save()
+                                }
+                                if showArchived == false {
+                                    Button {
+                                        let topic = Topic(context: moc)
+                                        topic.course = course
+                                        topic.creationDate = Date()
+                                        dataController.save()
+                                    } label: {
+                                        Label("Add new item", systemImage: "plus")
+                                    }
+                                }
                             }
                         }
                     }
+                    .listStyle(InsetGroupedListStyle())
                 }
             }
-            .listStyle(InsetGroupedListStyle())
             .navigationTitle(Text(showArchived ? "Archived Courses" : "Open Courses"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -88,12 +94,17 @@ struct CoursesView: View {
                 }
             }
             .actionSheet(isPresented: $showSortingOrder) {
-                ActionSheet(title: Text("Sort topics"), message: nil, buttons: [
+                ActionSheet(
+                    title: Text("Sort topics"), message: nil,
+                    buttons: [
                     .default(Text("Optimized")) { sortOrder = .optimized },
                     .default(Text("Title")) { sortOrder = .title },
                     .default(Text("Date")) { sortOrder = .creationDate }
-                ])
+                    ]
+                )
             }
+            
+            SelectSomethingView()
         }
     }
 }
