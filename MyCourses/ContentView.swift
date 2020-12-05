@@ -38,6 +38,15 @@ struct ContentView: View {
                         icon: { Image(systemName: "archivebox") }
                     )
                 }
+            
+            AwardsView(awards: Award.allAwards)
+                .tag(AwardsView.tag)
+                .tabItem {
+                    Label(
+                        title: { Text("Awards") },
+                        icon: { Image(systemName: "rosette") }
+)
+                }
         }
     }
 }
