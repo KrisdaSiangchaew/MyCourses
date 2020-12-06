@@ -21,7 +21,7 @@ struct EditCourseView: View {
     @State private var archived: Bool
     
     let cols: [GridItem] = [
-        GridItem(.adaptive(minimum: 44, maximum: 50))
+        GridItem(.adaptive(minimum: 80, maximum: 80))
     ]
     
     init(course: Course) {
